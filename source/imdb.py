@@ -9,12 +9,20 @@ from environs import Env
 import datetime
 import psycopg2
 import numpy as np
+import urllib.parse as urlparse
+import os
+# DATABASE_SERVER='localhost'
+# DATABASE_PORT='5432'
+# DATABASE_NAME='postgres'
+# DATABASE_USERNAME='postgres'
+# DATABASE_PASSWORD='admin'
 
-DATABASE_SERVER='localhost'
-DATABASE_PORT='5432'
-DATABASE_NAME='postgres'
-DATABASE_USERNAME='postgres'
-DATABASE_PASSWORD='admin'
+url = urlparse.urlparse(os.environ['DATABASE_URL'])
+dbname = url.path[1:]
+user = url.username
+password = url.password
+host = url.hostname
+port = url.port
 
 imdb_mod = Blueprint('imdb', __name__)
 
