@@ -10,9 +10,6 @@ import datetime
 import psycopg2
 import numpy as np
 
-env = Env()
-env.read_env()
-
 DATABASE_SERVER='localhost'
 DATABASE_PORT='5432'
 DATABASE_NAME='postgres'
