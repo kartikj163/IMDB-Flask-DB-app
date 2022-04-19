@@ -18,11 +18,11 @@ import os
 # DATABASE_PASSWORD='admin'
 
 url = urlparse.urlparse(os.environ['DATABASE_URL'])
-dbname = url.path[1:]
-user = url.username
-password = url.password
-host = url.hostname
-port = url.port
+DATABASE_NAME = url.path[1:]
+DATABASE_USERNAME = url.username
+DATABASE_PASSWORD = url.password
+DATABASE_SERVER = url.hostname
+DATABASE_PORT = url.port
 
 imdb_mod = Blueprint('imdb', __name__)
 
