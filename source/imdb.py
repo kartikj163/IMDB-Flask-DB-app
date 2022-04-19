@@ -123,6 +123,21 @@ def exec_db_backup():
     url = f'/imdb/top-250-movies/{msg}'
     return redirect(url)
 
+@imdb_mod.route('view-all-movies', methods=['GET'])
+def view_all_movies():
+    conn = psycopg2.connect(
+        host=DATABASE_SERVER,
+        database=DATABASE_NAME,
+        user=DATABASE_USERNAME,
+        password=DATABASE_PASSWORD,
+        port=DATABASE_PORT
+    )
+    cur = conn.cursor()
+    cur.execute('select * from public.imdb_top250_movies')
+    m = []
+    for row in cur:
+        m.append(row)
+    return render_template('imdb/top_250_movies.html', top_10_list=m)
 
 @imdb_mod.route('get-top-10-movies', methods=['GET'])
 def get_top_10_movies():
