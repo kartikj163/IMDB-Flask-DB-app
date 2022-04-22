@@ -22,12 +22,13 @@ if onpremise_or_cloud == 'onpremise':
     DATABASE_USERNAME='postgres'
     DATABASE_PASSWORD='admin'
 else:
-     url = urlparse.urlparse(os.environ['DATABASE_URL'])
-     DATABASE_NAME = url.path[1:]
-     DATABASE_USERNAME = url.username
-     DATABASE_PASSWORD = url.password
-     DATABASE_SERVER = url.hostname
-     DATABASE_PORT = url.port
+    
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    DATABASE_NAME = url.path[1:]
+    DATABASE_USERNAME = url.username
+    DATABASE_PASSWORD = url.password
+    DATABASE_SERVER = url.hostname
+    DATABASE_PORT = url.port
 
 imdb_mod = Blueprint('imdb', __name__)
 
