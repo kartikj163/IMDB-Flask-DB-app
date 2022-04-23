@@ -13,22 +13,22 @@ import numpy as np
 import urllib.parse as urlparse
 import os
 
-onpremise_or_cloud = input("Running on-premise or cloud?")
+# onpremise_or_cloud = input("Running on-premise or cloud?")
 
-if onpremise_or_cloud == 'onpremise':
-    DATABASE_SERVER='localhost'
-    DATABASE_PORT='5432'
-    DATABASE_NAME='postgres'
-    DATABASE_USERNAME='postgres'
-    DATABASE_PASSWORD='admin'
-else:
-    
-    url = urlparse.urlparse(os.environ['DATABASE_URL'])
-    DATABASE_NAME = url.path[1:]
-    DATABASE_USERNAME = url.username
-    DATABASE_PASSWORD = url.password
-    DATABASE_SERVER = url.hostname
-    DATABASE_PORT = url.port
+# if onpremise_or_cloud == 'onpremise':
+#     DATABASE_SERVER='localhost'
+#     DATABASE_PORT='5432'
+#     DATABASE_NAME='postgres'
+#     DATABASE_USERNAME='postgres'
+#     DATABASE_PASSWORD='admin'
+# else:
+
+url = urlparse.urlparse(os.environ['DATABASE_URL'])
+DATABASE_NAME = url.path[1:]
+DATABASE_USERNAME = url.username
+DATABASE_PASSWORD = url.password
+DATABASE_SERVER = url.hostname
+DATABASE_PORT = url.port
 
 imdb_mod = Blueprint('imdb', __name__)
 
