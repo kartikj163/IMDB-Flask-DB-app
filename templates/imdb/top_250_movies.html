@@ -28,15 +28,56 @@
                         <a href="{{ url_for('imdb.exec_db_backup')}}" class="btn btn-primary">Backup Database</a>
 
                       </p>
-                      <p>
+                      <div>
                         <a href="{{ url_for('imdb.view_all_movies')}}" class="btn btn-primary">View Data</a>
-                        <a href="{{ url_for('imdb.get_top_10_movies')}}" class="btn btn-primary">Get Top 10</a>
-                        <a href="{{ url_for('imdb.year_wise_count')}}" class="btn btn-primary">By Year Dropdown</a>
+
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Top N Movies
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ url_for('imdb.get_top_n_movies', n=10)}}">10</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.get_top_n_movies', n=20)}}">20</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.get_top_n_movies', n=30)}}">30</a>
+
+                          </div>
+                        </div>
+
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select Year
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ url_for('imdb.year_wise_count', n=1990)}}">1990</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.year_wise_count', n=2000)}}">2000</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.year_wise_count', n=2005)}}">2005</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.year_wise_count', n=2010)}}">2010</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.year_wise_count', n=2011)}}">2011</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.year_wise_count', n=2014)}}">2014</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.year_wise_count', n=2015)}}">2015</a>
+
+                          </div>
+                        </div>
+
                         <a href="{{ url_for('imdb.action_movies')}}" class="btn btn-primary">Action Movies</a>
                         <a href="{{ url_for('imdb.drama_movies')}}" class="btn btn-primary">Drama Movies</a>
-                        <a href="{{ url_for('imdb.director_count')}}" class="btn btn-primary">By Director Dropdown</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Director
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ url_for('imdb.director_count', n='Christopher Nolan (dir.)')}}">Christopher Nolan (dir.)</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.director_count', n='Peter Jackson (dir.)')}}">Peter Jackson (dir.)</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.director_count', n='Francis Ford Coppola (dir.)')}}">Francis Ford Coppola (dir.)</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.director_count', n='David Fincher (dir.)')}}">David Fincher (dir.)</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.director_count', n='Robert Zemeckis (dir.)')}}">Robert Zemeckis (dir.)</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.director_count', n='Quentin Tarantino (dir.)')}}">Quentin Tarantino (dir.)</a>
+                            <a class="dropdown-item" href="{{ url_for('imdb.director_count', n='Steven Spielberg (dir.)')}}">Steven Spielberg (dir.)</a>
 
-                      </p>
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
                   </form>
                   <p>
@@ -53,30 +94,7 @@
                 {% endif %}
                 
             </div>
-            <div>
-                <div class="pt-4">
-                    <form method="POST" action="{{ url_for('imdb.search_movies')}}" class="row">
-                        <div class="col-2">
-                            <label for="search_number" >Select Search Count</label>
-                        </div>
-                        <div class="col-3">
-
-                            <select class="form-select" aria-label="Default select example" name="search_number">
-                                <option value=""></option>
-                                <option value="10">10</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
-                        <div class="col-3">
-                            <button type="submit" class="btn btn-primary">Search</button>
-                        </div>
-                        <div class="col-3">
-                            <span> Search Count: {{search_count}}</span>
-                        </div>
-                    </form>
-                </div>
-                <table class="table table-striped">
+            <table class="table table-striped">
                     <tr>
                         <th>Index</th>
                         <th>Movie Title</th>

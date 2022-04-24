@@ -164,6 +164,7 @@ def get_top_10_movies():
 
 @imdb_mod.route('year-wise-count', methods=['GET'])
 def year_wise_count():
+    n = request.args.get('n')
     conn = psycopg2.connect(
         host=DATABASE_SERVER,
         database=DATABASE_NAME,
@@ -171,8 +172,10 @@ def year_wise_count():
         password=DATABASE_PASSWORD,
         port=DATABASE_PORT
     )
+
+    sql = f'select * from public.imdb_top250_movies where cast(year as int) = {n}'
     cur = conn.cursor()
-    cur.execute('SELECT * FROM public.imdb_top250_movies where cast(year as int) =2000 ')
+    cur.execute(sql)
     y = []
     for row in cur:
         y.append(row)
@@ -212,6 +215,7 @@ def drama_movies():
 
 @imdb_mod.route('director-count', methods=['GET'])
 def director_count():
+    n = request.args.get('n')
     conn = psycopg2.connect(
         host=DATABASE_SERVER,
         database=DATABASE_NAME,
@@ -219,8 +223,11 @@ def director_count():
         password=DATABASE_PASSWORD,
         port=DATABASE_PORT
     )
+
+    sql = f"select * from public.imdb_top250_movies where director = '{n}'"
+    print(sql)
     cur = conn.cursor()
-    cur.execute("SELECT * FROM public.imdb_top250_movies where director ='Christopher Nolan (dir.)'")
+    cur.execute(sql)
     director = []
     for row in cur:
         director.append(row)
@@ -310,3 +317,26 @@ def search_movies():
         l.append(row)
     search_count = len(l)
     return render_template('imdb/top_250_movies.html', top_10_list=l, search_count=search_count)
+
+@imdb_mod.route('get-top-n-movies', methods=['GET'])
+def get_top_n_movies():
+    n = request.args.get('n')
+    print(n)
+    conn = psycopg2.connect(
+        host=DATABASE_SERVER,
+        database=DATABASE_NAME,
+        user=DATABASE_USERNAME,
+        password=DATABASE_PASSWORD,
+        port=DATABASE_PORT
+    )
+
+    sql = f'select * from public.imdb_top250_movies order by cast(place as int) limit {n}'
+    print(sql)
+    cur = conn.cursor()
+    cur.execute(sql)
+    l = []
+    for row in cur:
+        l.append(row)
+
+    print(l)
+    return render_template('imdb/top_250_movies.html', top_10_list=l)
