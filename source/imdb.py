@@ -16,19 +16,19 @@ import os
 # onpremise_or_cloud = input("Running on-premise or cloud?")
 
 # if onpremise_or_cloud == 'onpremise':
-#     DATABASE_SERVER='localhost'
-#     DATABASE_PORT='5432'
-#     DATABASE_NAME='postgres'
-#     DATABASE_USERNAME='postgres'
-#     DATABASE_PASSWORD='admin'
+DATABASE_SERVER='localhost'
+DATABASE_PORT='5432'
+DATABASE_NAME='postgres'
+DATABASE_USERNAME='postgres'
+DATABASE_PASSWORD='admin'
 # else:
 
-url = urlparse.urlparse(os.environ['DATABASE_URL'])
-DATABASE_NAME = url.path[1:]
-DATABASE_USERNAME = url.username
-DATABASE_PASSWORD = url.password
-DATABASE_SERVER = url.hostname
-DATABASE_PORT = url.port
+# url = urlparse.urlparse(os.environ['DATABASE_URL'])
+# DATABASE_NAME = url.path[1:]
+# DATABASE_USERNAME = url.username
+# DATABASE_PASSWORD = url.password
+# DATABASE_SERVER = url.hostname
+# DATABASE_PORT = url.port
 
 imdb_mod = Blueprint('imdb', __name__)
 
@@ -287,3 +287,26 @@ def exec_db_restore():
     msg = 'Restore DB completed successfully!'
     url = f'/imdb/top-250-movies/{msg}'
     return redirect(url)
+
+@imdb_mod.route('search-movies', methods=['POST'])
+def search_movies():
+    search_number = request.form['search_number']
+    if search_number == '':
+        search_number = 10
+    conn = psycopg2.connect(
+        host=DATABASE_SERVER,
+        database=DATABASE_NAME,
+        user=DATABASE_USERNAME,
+        password=DATABASE_PASSWORD,
+        port=DATABASE_PORT
+    )
+    print(search_number)
+    sql = f'select * from public.imdb_top250_movies order by cast(place as int) limit {search_number}'
+    print(sql)
+    cur = conn.cursor()
+    cur.execute(sql)
+    l = []
+    for row in cur:
+        l.append(row)
+    search_count = len(l)
+    return render_template('imdb/top_250_movies.html', top_10_list=l, search_count=search_count)
